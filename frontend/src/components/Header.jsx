@@ -1,9 +1,12 @@
 import React from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container, Badge } from 'react-bootstrap';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { useSelector } from 'react-redux';
 
 const Header = () => {
+
+  const {cartItems} = useSelector((state)=> state.cart)
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
@@ -16,7 +19,7 @@ const Header = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               <Nav.Link as={Link} to="/cart">
-                <FaShoppingCart /> Cart
+                <FaShoppingCart /> Cart {cartItems.length > 0 && <Badge bg='danger'>{cartItems.reduce((acc, curr)=>acc + curr.qty,0)}</Badge>}
               </Nav.Link>
               <Nav.Link as={Link} to="/login">
                 <FaUser /> Login

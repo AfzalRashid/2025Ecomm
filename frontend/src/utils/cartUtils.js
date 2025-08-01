@@ -5,7 +5,7 @@ export const updateCart = function(state) {
 
     state.shippingPrice = state.itemsPrice > 100 ? 0 : 10
 
-    state.taxPrice = state.itemsPrice * 0.15
+    state.taxPrice = (state.itemsPrice * 0.15).toFixed(2)
 
     state.totalPrice = (Number(state.itemsPrice) + Number(state.shippingPrice) + Number(state.taxPrice)).toFixed(2)
 
