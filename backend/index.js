@@ -2,6 +2,7 @@ const express = require('express');
 const connectDB = require('./config/db');
 const productRoutes = require('./routes/productRoutes');
 const userRoutes = require('./routes/userRoutes');
+const cookieParser = require('cookie-parser')
 const {notFound, errorHandler} = require('./middleware/errorMiddleware')
 require('dotenv').config();
 
@@ -10,6 +11,7 @@ const PORT = process.env.PORT || 8000;
 // Middleware to parse JSON bodies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser())
 
 connectDB();
 

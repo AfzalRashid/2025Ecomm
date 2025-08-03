@@ -2,13 +2,14 @@ import { useSelector, useDispatch } from "react-redux";
 import { ListGroup, ListGroupItem, Row, Col, Image, Button, Card } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
 import { addToCart, removeItem } from "../slices/cartSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Cart = () => {
 
     const { cartItems, itemsPrice, shippingPrice, taxPrice, totalPrice } = useSelector((state) => state.cart)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const updateCartByQty = (item, qty) => {
         dispatch(addToCart({ ...item, qty }))
@@ -73,7 +74,9 @@ const Cart = () => {
                             <strong>${totalPrice}</strong>
                         </ListGroupItem>
                     </ListGroup>
-                    <Button>Proceed to checkout</Button>
+                    <Button
+                    onClick={()=>navigate('/login?redirect=/shipping')}
+                    >Proceed to checkout</Button>
                 </Card>
             </Col>
         </Row>
