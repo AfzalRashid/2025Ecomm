@@ -18,7 +18,7 @@ connectDB();
 app.get('/', (req, res) => res.send("API is up and running..."));
 
 app.use('/products', productRoutes);
-app.use('/user', userRoutes)
+app.use('/users', userRoutes)
 
 app.use(notFound)
 app.use(errorHandler)

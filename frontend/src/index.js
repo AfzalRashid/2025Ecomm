@@ -10,6 +10,7 @@ import PDP from './pages/PDP'
 import store from './store.js'
 import {Provider} from 'react-redux'
 import Cart from "./pages/Cart.jsx"
+import Login from './pages/Login.jsx';
 
 
 const routes = createBrowserRouter(createRoutesFromElements(
@@ -17,6 +18,7 @@ const routes = createBrowserRouter(createRoutesFromElements(
     <Route path="/" element={<Home/>}/>
     <Route path="/cart" element={<Cart/>}/>
     <Route path="/product/:id" element={<PDP/>}/>
+    <Route path="/login" element={<Login/>}/>
   </Route>
 ))
 const root = ReactDOM.createRoot(document.getElementById('root'));
