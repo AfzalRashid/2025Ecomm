@@ -3,14 +3,15 @@ import FormContainer from '../components/FormContainer';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLoginMutation } from '../slices/userApiSlice';
+import { useRegisterMutation } from '../slices/userApiSlice';
 import { setCredentials } from '../slices/authSlice';
 import {toast} from 'react-toastify'
-import CheckoutSteps from '../components/CheckoutSteps';
 
-const Login = () => {
+const Register = () => {
   const [email, setEmail] = useState('');
   const [pwd, setPwd] = useState('');
+  const [name, setName] = useState('');
+  const [cnfrmpwd, setCnfrmpwd] = useState('');
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -18,8 +19,8 @@ const Login = () => {
   const { search } = useLocation()
   const sp = new URLSearchParams(search)
   const redirect = sp.get('redirect') || '/'
-  const {userInfo} = useSelector((state) => state.auth)
-  const [login, { isLoading }] = useLoginMutation()
+  const userInfo = useSelector((state) => state.userInfo)
+  const [register, { isLoading }] = useRegisterMutation()
 
 
   useEffect(() => {
@@ -30,21 +31,31 @@ const Login = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    // handle login logic here
+    if(pwd !== cnfrmpwd) 
+        toast.error('Password should be same')
     try {
-      const res = await login({ email: email, password: pwd }).unwrap() // unwrap gives you data directly or throws error, so you can use try/catch
+      const res = await register({ name, email, password: pwd }).unwrap() // unwrap gives you data directly or throws error, so you can use try/catch
       dispatch(setCredentials(res))
       navigate(redirect)
     } catch (err) {
-      toast.error(err?.data?.message || err.error || 'Login failed');
+      toast.error(err?.data?.message || err.error || 'Registration failed');
     }
   };
 
   return (
     <FormContainer>
-      <h1 className="my-4">Sign In</h1>
-      <CheckoutSteps step={1}/>
+      <h1 className="my-4">Register</h1>
       <Form onSubmit={submitHandler}>
+        <Form.Group controlId="name" className="mb-3">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </Form.Group>
+
         <Form.Group controlId="email" className="mb-3">
           <Form.Label>Email Address</Form.Label>
           <Form.Control
@@ -65,17 +76,27 @@ const Login = () => {
           />
         </Form.Group>
 
+        <Form.Group controlId="cnfrmpwd" className="mb-4">
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Enter password"
+            value={cnfrmpwd}
+            onChange={(e) => setCnfrmpwd(e.target.value)}
+          />
+        </Form.Group>
+
         <Button type="submit" variant="primary" className="w-100" disabled={isLoading}>
           {isLoading ? 'Signing In...' :
-          'Sign In'}
+          'Register'}
         </Button>
       </Form>
       <Row>
-        <Col>New Cutomer?<Link to={redirect !== '/' ? `/register?redirect=${redirect}` : '/register'}>Register</Link></Col>
+        <Col>Already a Cutomer?<Link to={redirect !== '/' ? `/login?redirect=${redirect}` : '/login'}>Log In</Link></Col>
       </Row>
     </FormContainer>
 
   );
 };
 
-export default Login;
+export default Register;

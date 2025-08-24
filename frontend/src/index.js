@@ -11,6 +11,9 @@ import store from './store.js'
 import {Provider} from 'react-redux'
 import Cart from "./pages/Cart.jsx"
 import Login from './pages/Login.jsx';
+import Register from './pages/Registration.jsx';
+import Shipping from './pages/Shipping.jsx';
+import PrivateRoutes from './components/PrivateRoutes.jsx'
 
 
 const routes = createBrowserRouter(createRoutesFromElements(
@@ -19,6 +22,10 @@ const routes = createBrowserRouter(createRoutesFromElements(
     <Route path="/cart" element={<Cart/>}/>
     <Route path="/product/:id" element={<PDP/>}/>
     <Route path="/login" element={<Login/>}/>
+    <Route path="/register" element={<Register/>}/>
+    <Route path="" element={<PrivateRoutes/>}>
+      <Route path="/shipping" element={<Shipping/>}/>
+    </Route>
   </Route>
 ))
 const root = ReactDOM.createRoot(document.getElementById('root'));
