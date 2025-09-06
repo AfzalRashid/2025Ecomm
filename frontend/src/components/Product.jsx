@@ -13,6 +13,7 @@ const Product = ({ product }) => {
           <Card.Title as="h5" className="text-truncate">{product.name}</Card.Title>
           <Rating rating={product.rating} numReview={product.numReviews} />
           <Card.Text as="h5">{product.price}</Card.Text>
+          <Card.Text as="h5">{product.countInStock > 0 ? "In Stock" : "Out of Stock"}</Card.Text>
         </Card.Body>
       </Link>
     </Card>
